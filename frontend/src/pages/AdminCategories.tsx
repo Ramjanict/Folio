@@ -1,5 +1,4 @@
 import { useState, type FormEvent } from "react";
-import { AdminNav } from "./AdminDashboard";
 import { Banner, Button, Field, PageHeader, Panel, TextArea, TextInput } from "../components/ui";
 import { useCategoriesQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation } from "../features/api";
 import { apiError } from "../lib/format";
@@ -47,7 +46,6 @@ export function AdminCategories() {
   return (
     <div>
       <PageHeader kicker="Admin" title="Categories" text="A category with books cannot be deleted until those books are moved or removed." />
-      <AdminNav current="/admin/categories" />
       {error ? <div className="mb-4"><Banner>{error}</Banner></div> : null}
       {note ? <div className="mb-4"><Banner tone="ok">{note}</Banner></div> : null}
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">

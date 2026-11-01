@@ -9,7 +9,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: #f3efe6;
+  background: #e6e1d6;
   color: #1c1915;
   font-family: Outfit, ui-sans-serif, system-ui, sans-serif;
 }
@@ -23,4 +23,52 @@ textarea {
 
 ::selection {
   background: #cfe7dc;
+}
+
+.price-range {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+}
+
+.price-range::-webkit-slider-thumb {
+  pointer-events: auto;
+  appearance: none;
+  height: 18px;
+  width: 18px;
+  border: 2px solid #0f6e56;
+  border-radius: 999px;
+  background: #fffdf8;
+  box-shadow: 0 1px 4px rgba(28, 25, 21, 0.18);
+  cursor: grab;
+}
+
+.price-range::-moz-range-thumb {
+  pointer-events: auto;
+  height: 18px;
+  width: 18px;
+  border: 2px solid #0f6e56;
+  border-radius: 999px;
+  background: #fffdf8;
+  cursor: grab;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-fade,
+  .animate-menu {
+    animation: none;
+  }
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../app/store";
-import { Banner, Button, Field, PageHeader, PageLoader, SelectInput, TextArea, TextInput } from "../components/ui";
+import CommonSelect from "../components/CommonSelect";
+import { Banner, Button, Field, PageHeader, PageLoader, TextArea, TextInput } from "../components/ui";
 import { useBookQuery, useCategoriesQuery, useCreateBookMutation, useUpdateBookMutation } from "../features/api";
 import { apiError, withProtocol } from "../lib/format";
 import type { BookInput, BookStatus } from "../types";
@@ -81,6 +82,10 @@ export function BookForm() {
     event.preventDefault();
     setError("");
     setNote("");
+    if (!form.categoryId) {
+      setError("Choose a category");
+      return;
+    }
     try {
       if (isEdit && id) {
         await updateBook({ id, ...payload() }).unwrap();
@@ -114,12 +119,13 @@ export function BookForm() {
           <TextInput required value={form.title} onChange={(event) => set("title", event.target.value)} />
         </Field>
         <Field label="Category">
-          <SelectInput required value={form.categoryId} onChange={(event) => set("categoryId", event.target.value)}>
-            <option value="">Choose a category</option>
-            {categories.data?.map((category) => (
-              <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-          </SelectInput>
+          <CommonSelect
+            aria-label="Category"
+            value={form.categoryId || undefined}
+            placeholder="Choose a category"
+            item={(categories.data ?? []).map((category) => ({ value: category.id, label: category.name }))}
+            onValueChange={(value) => set("categoryId", value)}
+          />
         </Field>
         <div className="md:col-span-2">
           <Field label="Description">
@@ -136,11 +142,22 @@ export function BookForm() {
           <TextInput value={form.language} onChange={(event) => set("language", event.target.value)} />
         </Field>
         <Field label="Status">
-          <SelectInput value={form.status} onChange={(event) => set("status", event.target.value as BookStatus)}>
-            {statuses.map((status) => (
-              <option key={status} value={status}>{status === "PENDING_REVIEW" ? "Submit for review" : status === "DRAFT" ? "Draft" : status === "PUBLISHED" ? "Published" : "Archived"}</option>
-            ))}
-          </SelectInput>
+          <CommonSelect
+            aria-label="Status"
+            value={form.status}
+            item={statuses.map((status) => ({
+              value: status,
+              label:
+                status === "PENDING_REVIEW"
+                  ? "Submit for review"
+                  : status === "DRAFT"
+                    ? "Draft"
+                    : status === "PUBLISHED"
+                      ? "Published"
+                      : "Archived",
+            }))}
+            onValueChange={(value) => set("status", value)}
+          />
         </Field>
         <Field label="Pages">
           <TextInput type="number" min={1} value={form.pageCount} onChange={(event) => set("pageCount", event.target.value)} />

@@ -59,7 +59,7 @@ export function AuthFrame({ title, text, children }: { title: string; text: stri
   return (
     <div className="grid overflow-hidden rounded-3xl border border-line bg-card shadow-card lg:grid-cols-[0.9fr_1.1fr]">
       <aside className="hidden bg-ink p-10 text-paper lg:block">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">Ramjan Library</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">Folio</p>
         <h1 className="mt-4 font-serif text-4xl leading-tight">{title}</h1>
         <p className="mt-4 max-w-sm text-white/70">{text}</p>
         <ul className="mt-10 space-y-3 text-sm text-white/80">

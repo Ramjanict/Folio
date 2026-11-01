@@ -1,5 +1,8 @@
 {
-  "name": "book",
+  "name": "folio",
+  "description": "Folio web app. Readers browse and borrow books, authors submit manuscripts, and admins publish titles and manage loans.",
+  "keywords": ["folio", "library", "book-management", "lending", "react", "typescript", "tailwindcss", "redux"],
+  "author": "Ramjan",
   "private": true,
   "version": "0.0.0",
   "type": "module",

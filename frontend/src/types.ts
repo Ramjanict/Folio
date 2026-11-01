@@ -127,6 +127,8 @@ export interface BookQuery {
   page?: number;
   limit?: number;
   sort?: "latest" | "oldest" | "price_asc" | "price_desc" | "title_asc";
+  minPrice?: number;
+  maxPrice?: number;
 }
 
 export interface UserQuery {

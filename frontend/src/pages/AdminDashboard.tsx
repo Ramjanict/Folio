@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { StatusChart } from "../components/charts";
 import { PageHeader, PageLoader, Panel } from "../components/ui";
 import { useAdminBooksQuery, useAdminBorrowsQuery, useHealthQuery, useUsersQuery } from "../features/api";
@@ -23,7 +22,6 @@ export function AdminDashboard() {
         title="Control room"
         text="Moderation, membership, and the loan desk. Charts use the latest 100 records when a list is longer."
       />
-      <AdminNav current="/admin" />
       {loading ? <PageLoader /> : null}
       <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat name="People" value={users.data?.meta.total ?? userRows.length} />
@@ -39,29 +37,6 @@ export function AdminDashboard() {
         <StatusChart title="Loans by status" data={countBy(borrowRows.map((row) => row.status))} />
         <StatusChart title="People by role" data={countBy(userRows.map((person) => person.role))} />
       </div>
-    </div>
-  );
-}
-
-export function AdminNav({ current }: { current: string }) {
-  const links = [
-    ["/admin", "Overview"],
-    ["/admin/books", "Books"],
-    ["/admin/categories", "Categories"],
-    ["/admin/users", "People"],
-    ["/admin/borrows", "Loans"],
-  ];
-  return (
-    <div className="mb-4 flex flex-wrap gap-2 text-sm font-semibold">
-      {links.map(([to, name]) => (
-        <Link
-          key={to}
-          to={to}
-          className={to === current ? "rounded-full bg-ink px-3 py-1.5 text-paper" : "rounded-full bg-card px-3 py-1.5 ring-1 ring-line"}
-        >
-          {name}
-        </Link>
-      ))}
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { AdminNav } from "./AdminDashboard";
-import { Badge, Banner, Button, PageHeader, Pager, SelectInput, TextInput } from "../components/ui";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import CommonSelect from "../components/CommonSelect";
+import { Badge, Banner, Button, PageHeader, Pager, TextInput } from "../components/ui";
 import { useAdminBooksQuery, useDeleteBookMutation, useUpdateBookStatusMutation } from "../features/api";
 import { apiError, label, statusTone } from "../lib/format";
 import type { BookStatus } from "../types";
@@ -9,8 +9,10 @@ import type { BookStatus } from "../types";
 const statuses: BookStatus[] = ["DRAFT", "PENDING_REVIEW", "PUBLISHED", "ARCHIVED"];
 
 export function AdminBooks() {
-  const [search, setSearch] = useState("");
-  const [query, setQuery] = useState("");
+  const [params] = useSearchParams();
+  const urlQuery = params.get("q") ?? "";
+  const [search, setSearch] = useState(urlQuery);
+  const [query, setQuery] = useState(urlQuery);
   const [status, setStatus] = useState<BookStatus | "">("");
   const [page, setPage] = useState(1);
   const [error, setError] = useState("");
@@ -18,10 +20,15 @@ export function AdminBooks() {
   const [updateStatus] = useUpdateBookStatusMutation();
   const [remove] = useDeleteBookMutation();
 
+  useEffect(() => {
+    setSearch(urlQuery);
+    setQuery(urlQuery);
+    setPage(1);
+  }, [urlQuery]);
+
   return (
     <div>
       <PageHeader kicker="Admin" title="Every manuscript" text="Approve a submission by publishing it, or archive a title that should leave the catalog." />
-      <AdminNav current="/admin/books" />
       {error ? <div className="mb-4"><Banner>{error}</Banner></div> : null}
       <form
         className="mb-4 flex flex-col gap-3 sm:flex-row"
@@ -32,10 +39,17 @@ export function AdminBooks() {
         }}
       >
         <TextInput value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Title, ISBN, or pen name" aria-label="Search books" />
-        <SelectInput className="sm:w-52" value={status} onChange={(event) => { setStatus(event.target.value as BookStatus | ""); setPage(1); }}>
-          <option value="">All statuses</option>
-          {statuses.map((item) => <option key={item} value={item}>{label(item)}</option>)}
-        </SelectInput>
+        <CommonSelect
+          className="sm:w-52"
+          aria-label="Status"
+          value={status}
+          placeholder="All statuses"
+          item={[{ value: "", label: "All statuses" }, ...statuses.map((item) => ({ value: item, label: label(item) }))]}
+          onValueChange={(value) => {
+            setStatus(value);
+            setPage(1);
+          }}
+        />
         <Button type="submit">Search</Button>
       </form>
       {books.isError ? <Banner>{apiError(books.error)}</Banner> : null}
@@ -60,20 +74,20 @@ export function AdminBooks() {
                 <td className="px-4 py-3"><Badge className={statusTone(book.status)}>{label(book.status || "DRAFT")}</Badge></td>
                 <td className="px-4 py-3">
                   <div className="flex flex-wrap gap-2">
-                    <SelectInput
-                      className="w-40 py-1.5"
+                    <CommonSelect
+                      className="w-40"
+                      aria-label={`Status for ${book.title}`}
                       value={book.status}
-                      onChange={async (event) => {
+                      item={statuses.map((item) => ({ value: item, label: label(item) }))}
+                      onValueChange={async (value) => {
                         setError("");
                         try {
-                          await updateStatus({ id: book.id, status: event.target.value as BookStatus }).unwrap();
+                          await updateStatus({ id: book.id, status: value }).unwrap();
                         } catch (caught) {
                           setError(apiError(caught));
                         }
                       }}
-                    >
-                      {statuses.map((item) => <option key={item} value={item}>{label(item)}</option>)}
-                    </SelectInput>
+                    />
                     <Button
                       tone="danger"
                       onClick={async () => {

@@ -10,7 +10,7 @@ export function CategoryPage() {
   const category = useCategoryQuery(slug, { skip: !slug });
 
   useEffect(() => {
-    if (category.data) document.title = `${category.data.name} · Ramjan`;
+    if (category.data) document.title = `${category.data.name} · Folio`;
   }, [category.data]);
 
   if (category.isLoading) return <PageLoader />;

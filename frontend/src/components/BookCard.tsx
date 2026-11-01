@@ -19,7 +19,7 @@ export function BookCard({ book, onRemove }: { book: Book; onRemove?: () => void
             <img
               src={book.coverImage ?? undefined}
               alt=""
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
               onError={() => setFailed(true)}
             />
           ) : (
@@ -48,16 +48,17 @@ export function BookCard({ book, onRemove }: { book: Book; onRemove?: () => void
             Remove
           </button>
         ) : null}
-        <div className="mt-auto flex items-center justify-between pt-3 text-sm">
+        <div className="mt-auto flex items-end justify-between gap-2 pt-3 text-sm">
           <span className="text-mute">
             {book.totalReviews ? `${book.averageRating?.toFixed(1)} · ${book.totalReviews}` : "No reviews"}
           </span>
-          <span className="font-medium text-ink">
-            {typeof book.stockQuantity === "number"
-              ? book.stockQuantity > 0
-                ? `${book.stockQuantity} copies`
-                : "Out of stock"
-              : price}
+          <span className="text-right">
+            <span className="block font-semibold text-ink">{price ?? "Free"}</span>
+            {typeof book.stockQuantity === "number" ? (
+              <span className="block text-xs text-mute">
+                {book.stockQuantity > 0 ? `${book.stockQuantity} in stock` : "Out of stock"}
+              </span>
+            ) : null}
           </span>
         </div>
       </div>
@@ -68,8 +69,10 @@ export function BookCard({ book, onRemove }: { book: Book; onRemove?: () => void
 export function BookGrid({ books }: { books: Book[] }) {
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-      {books.map((book) => (
-        <BookCard key={book.id} book={book} />
+      {books.map((book, index) => (
+        <div key={book.id} className="animate-rise" style={{ animationDelay: `${Math.min(index, 11) * 45}ms` }}>
+          <BookCard book={book} />
+        </div>
       ))}
     </div>
   );

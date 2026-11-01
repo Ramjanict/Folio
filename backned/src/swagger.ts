@@ -3,7 +3,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export function setupSwagger(app: INestApplication) {
   const config = new DocumentBuilder()
-    .setTitle('Ramjan Library API')
+    .setTitle('Folio API')
     .setDescription(
       'Book management API for readers, authors, and admins. ' +
         'Public catalog routes need no token. Protected routes use a Bearer access token from POST /auth/login. ' +

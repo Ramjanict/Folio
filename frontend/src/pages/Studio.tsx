@@ -13,7 +13,7 @@ export function Studio() {
     <div>
       <PageHeader
         kicker="Studio"
-        title="Your manuscripts"
+        title="Your desk"
         text="Drafts stay private. Submit a book for review when it is ready. Only an admin can publish it."
         action={<Link to="/studio/books/new"><Button>New book</Button></Link>}
       />
@@ -25,9 +25,13 @@ export function Studio() {
         <Stat label="Published" value={rows.filter((book) => book.status === "PUBLISHED").length} />
       </div>
       <StatusChart title="Books by status" text="Counts from your latest 100 manuscripts." data={counts} />
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 flex items-baseline justify-between">
+        <h2 className="font-serif text-2xl">Recent manuscripts</h2>
+        <Link to="/studio/books" className="text-sm font-semibold text-pine">See all</Link>
+      </div>
+      <div className="mt-3 space-y-3">
         {rows.length === 0 && !books.isLoading ? <Empty title="No manuscripts yet" action={<Link to="/studio/books/new" className="text-sm font-semibold text-pine">Write the first one</Link>} /> : null}
-        {rows.map((book) => (
+        {rows.slice(0, 5).map((book) => (
           <Panel key={book.id} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <Link to={`/books/${book.id}`} className="font-serif text-xl">{book.title}</Link>

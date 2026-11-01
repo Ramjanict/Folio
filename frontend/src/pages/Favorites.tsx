@@ -18,9 +18,9 @@ export function Favorites() {
       {favorites.isError ? <Banner>{apiError(favorites.error)}</Banner> : null}
       {favorites.data && favorites.data.length > 0 ? (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {favorites.data.map((item) => (
+          {favorites.data.map((item, index) => (
+            <div key={item.favoriteId} className="animate-rise" style={{ animationDelay: `${Math.min(index, 11) * 45}ms` }}>
             <BookCard
-              key={item.favoriteId}
               book={item.book}
               onRemove={async () => {
                 try {
@@ -30,6 +30,7 @@ export function Favorites() {
                 }
               }}
             />
+            </div>
           ))}
         </div>
       ) : favorites.data ? (

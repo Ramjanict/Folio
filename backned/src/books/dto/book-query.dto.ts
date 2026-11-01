@@ -1,4 +1,4 @@
-import { IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsEnum, IsInt, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 import { BookStatus } from '@prisma/client';
 
@@ -42,4 +42,16 @@ export class BookQueryDto {
   @IsOptional()
   @IsEnum(BookSortOrder)
   sort?: BookSortOrder = BookSortOrder.LATEST;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  minPrice?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  maxPrice?: number;
 }

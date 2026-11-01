@@ -1,4 +1,4 @@
-import { useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
+import { useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { cx } from "../lib/format";
 
@@ -93,10 +93,6 @@ export function PasswordInput({ className, ...props }: InputHTMLAttributes<HTMLI
 
 export function TextArea(props: TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return <textarea {...props} className={cx(control, "min-h-28 resize-y", props.className)} />;
-}
-
-export function SelectInput(props: SelectHTMLAttributes<HTMLSelectElement>) {
-  return <select {...props} className={cx(control, props.className)} />;
 }
 
 export function Banner({ tone = "error", children }: { tone?: "error" | "ok"; children: ReactNode }) {

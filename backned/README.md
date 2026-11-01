@@ -23,7 +23,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+API for Folio. Readers borrow books, authors submit manuscripts, and admins publish titles and manage loans.
 
 ## Project setup
 

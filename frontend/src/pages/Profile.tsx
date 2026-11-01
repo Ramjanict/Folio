@@ -1,4 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { Banner, Button, Field, PageHeader, Panel, TextArea, TextInput } from "../components/ui";
 import { useAppSelector } from "../app/store";
 import { useMyAuthorQuery, useUpdateAuthorMutation, useUpdateProfileMutation } from "../features/api";
@@ -6,6 +7,7 @@ import { apiError, withProtocol } from "../lib/format";
 
 export function Profile() {
   const user = useAppSelector((state) => state.auth.user);
+  const location = useLocation();
   const isAuthor = user?.role === "AUTHOR" || user?.role === "ADMIN";
   const author = useMyAuthorQuery(undefined, { skip: !isAuthor });
   const [updateProfile, profileState] = useUpdateProfileMutation();
@@ -65,6 +67,13 @@ export function Profile() {
     } catch (caught) {
       setError(apiError(caught));
     }
+  }
+
+  if (user?.role === "ADMIN" && !location.pathname.startsWith("/admin")) {
+    return <Navigate to="/admin/profile" replace />;
+  }
+  if (user?.role === "AUTHOR" && !location.pathname.startsWith("/studio")) {
+    return <Navigate to="/studio/profile" replace />;
   }
 
   return (

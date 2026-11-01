@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { AdminNav } from "./AdminDashboard";
-import { Badge, Banner, PageHeader, Pager, Panel, SelectInput, TextInput } from "../components/ui";
+import CommonSelect from "../components/CommonSelect";
+import { Badge, Banner, PageHeader, Pager, Panel, TextInput } from "../components/ui";
 import { useUpdateUserRoleMutation, useUpdateUserStatusMutation, useUserQuery, useUsersQuery } from "../features/api";
 import { apiError, day, label, statusTone } from "../lib/format";
 import type { Role, UserStatus } from "../types";
@@ -33,7 +33,6 @@ export function AdminUsers() {
   return (
     <div>
       <PageHeader kicker="Admin" title="People" text="Block an account to revoke its sessions. Promoting a reader to author creates their author profile." />
-      <AdminNav current="/admin/users" />
       {error ? <div className="mb-4"><Banner>{error}</Banner></div> : null}
       <form
         className="mb-4 flex flex-col gap-3 lg:flex-row"
@@ -44,14 +43,28 @@ export function AdminUsers() {
         }}
       >
         <TextInput value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Name or email" aria-label="Search people" />
-        <SelectInput className="lg:w-40" value={role} onChange={(event) => { setRole(event.target.value as Role | ""); setPage(1); }}>
-          <option value="">All roles</option>
-          {roles.map((item) => <option key={item} value={item}>{label(item)}</option>)}
-        </SelectInput>
-        <SelectInput className="lg:w-40" value={status} onChange={(event) => { setStatus(event.target.value as UserStatus | ""); setPage(1); }}>
-          <option value="">All statuses</option>
-          {statuses.map((item) => <option key={item} value={item}>{label(item)}</option>)}
-        </SelectInput>
+        <CommonSelect
+          className="lg:w-40"
+          aria-label="Role"
+          value={role}
+          placeholder="All roles"
+          item={[{ value: "", label: "All roles" }, ...roles.map((item) => ({ value: item, label: label(item) }))]}
+          onValueChange={(value) => {
+            setRole(value);
+            setPage(1);
+          }}
+        />
+        <CommonSelect
+          className="lg:w-40"
+          aria-label="Status"
+          value={status}
+          placeholder="All statuses"
+          item={[{ value: "", label: "All statuses" }, ...statuses.map((item) => ({ value: item, label: label(item) }))]}
+          onValueChange={(value) => {
+            setStatus(value);
+            setPage(1);
+          }}
+        />
         <button className="rounded-lg bg-pine px-4 py-2 text-sm font-semibold text-white" type="submit">Search</button>
       </form>
       <div className="grid gap-4 lg:grid-cols-[1fr_280px]">
@@ -74,22 +87,22 @@ export function AdminUsers() {
                     <p className="text-xs text-mute">{person.email}</p>
                   </td>
                   <td className="px-4 py-3">
-                    <SelectInput
-                      className="w-32 py-1.5"
+                    <CommonSelect
+                      className="w-32"
+                      aria-label={`Role for ${person.name}`}
                       value={person.role}
-                      onChange={(event) => change(updateRole({ id: person.id, role: event.target.value as Role }).unwrap())}
-                    >
-                      {roles.map((item) => <option key={item} value={item}>{label(item)}</option>)}
-                    </SelectInput>
+                      item={roles.map((item) => ({ value: item, label: label(item) }))}
+                      onValueChange={(value) => change(updateRole({ id: person.id, role: value }).unwrap())}
+                    />
                   </td>
                   <td className="px-4 py-3">
-                    <SelectInput
-                      className="w-32 py-1.5"
+                    <CommonSelect
+                      className="w-32"
+                      aria-label={`Status for ${person.name}`}
                       value={person.status}
-                      onChange={(event) => change(updateStatus({ id: person.id, status: event.target.value as UserStatus }).unwrap())}
-                    >
-                      {statuses.map((item) => <option key={item} value={item}>{label(item)}</option>)}
-                    </SelectInput>
+                      item={statuses.map((item) => ({ value: item, label: label(item) }))}
+                      onValueChange={(value) => change(updateStatus({ id: person.id, status: value }).unwrap())}
+                    />
                   </td>
                 </tr>
               ))}

@@ -32,7 +32,7 @@ export function BookDetails() {
   const [imageFailed, setImageFailed] = useState(false);
 
   useEffect(() => {
-    if (book.data) document.title = `${book.data.title} · Ramjan`;
+    if (book.data) document.title = `${book.data.title} · Folio`;
   }, [book.data]);
 
   if (book.isLoading) return <PageLoader />;

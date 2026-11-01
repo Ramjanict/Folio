@@ -1,12 +1,13 @@
-## Book Management Application
-This project is a book management application. Where users can search books by title and filter the books by genre, users can add a book wishlist and remove it from the wishlist in the browser localStorage.The application is fully responsive and works well on both desktop and mobile devices
+## Folio
+
+A lending library. Readers browse the catalog and borrow copies, authors submit manuscripts, and admins publish titles, manage members, and run the loan desk.
+
 ## Technology Stack
-JavaScript<br>
-React.js<br>
+TypeScript<br>
+React<br>
 Tailwind CSS<br>
-Context API<br>
+Redux Toolkit<br>
 react-router-dom<br>
-react-toastify<br>
 
 ## Instructions to Run Locally
 npm install<br>

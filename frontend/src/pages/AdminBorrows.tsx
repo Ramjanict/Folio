@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { AdminNav } from "./AdminDashboard";
-import { Badge, Banner, Button, PageHeader, SelectInput } from "../components/ui";
+import CommonSelect from "../components/CommonSelect";
+import { Badge, Banner, Button, PageHeader } from "../components/ui";
 import { useAdminBorrowsQuery, useUpdateBorrowStatusMutation } from "../features/api";
 import { NEXT_BORROW, apiError, day, label, statusTone } from "../lib/format";
 import type { BorrowStatus } from "../types";
@@ -21,13 +21,15 @@ export function AdminBorrows() {
         title="Loan desk"
         text="Approving a request does not change stock. Stock drops when you mark the copy borrowed, and returns when it comes back."
       />
-      <AdminNav current="/admin/borrows" />
       {error ? <div className="mb-4"><Banner>{error}</Banner></div> : null}
-      <SelectInput className="mb-4 max-w-xs" value={status} onChange={(event) => setStatus(event.target.value as BorrowStatus | "")}>
-        {filters.map((item) => (
-          <option key={item || "all"} value={item}>{item ? label(item) : "All loans"}</option>
-        ))}
-      </SelectInput>
+      <CommonSelect
+        className="mb-4 max-w-xs"
+        aria-label="Loan status"
+        value={status}
+        placeholder="All loans"
+        item={filters.map((item) => ({ value: item, label: item ? label(item) : "All loans" }))}
+        onValueChange={setStatus}
+      />
       {records.isError ? <Banner>{apiError(records.error)}</Banner> : null}
       <div className="space-y-3">
         {records.data?.length === 0 ? <p className="text-sm text-mute">No loans in this view.</p> : null}

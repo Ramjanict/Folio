@@ -1,8 +1,9 @@
 {
-  "name": "backned",
+  "name": "folio-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Folio API. Handles the catalog, author submissions, publishing, members, and loans.",
+  "keywords": ["folio", "library", "book-management", "lending", "nestjs", "typescript", "prisma", "postgresql"],
+  "author": "Ramjan",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -18,11 +19,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "postinstall": "prisma skills sync || exit 0",
+    "postinstall": "prisma generate",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
     "seed": "prisma db seed",
-    "seed:admin": "prisma db seed"
+    "seed:admin": "prisma db seed",
+    "seed:books": "ts-node prisma/seed-books.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
