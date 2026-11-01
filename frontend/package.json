@@ -1,15 +1,24 @@
 {
   "name": "folio",
   "description": "Folio web app. Readers browse and borrow books, authors submit manuscripts, and admins publish titles and manage loans.",
-  "keywords": ["folio", "library", "book-management", "lending", "react", "typescript", "tailwindcss", "redux"],
+  "keywords": [
+    "folio",
+    "library",
+    "book-management",
+    "lending",
+    "react",
+    "typescript",
+    "tailwindcss",
+    "redux"
+  ],
   "author": "Ramjan",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "vite --port 3000",
-    "build": "tsc --noEmit && vite build",
+    "start": "node api.js && npm run dev",
+    "dev": "node api.js && vite --port 3000",
+    "build": "node api.js && tsc --noEmit && vite build",
     "lint": "tsc --noEmit",
     "preview": "vite preview"
   },
