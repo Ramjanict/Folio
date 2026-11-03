@@ -12,8 +12,6 @@ coverage/
 backned/generated/prisma/
 
 # Secrets. Examples and the public frontend dev URL stay in git.
-.env
-.env.local
 .env.development.local
 .env.test.local
 .env.production.local
@@ -32,7 +30,6 @@ lerna-debug.log*
 .DS_Store
 Thumbs.db
 .idea/
-.vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -49,7 +46,7 @@ Thumbs.db
 *.pid
 *.pid.lock
 .vercel
-.env*
 branch_structure.json
 temp_auto_push.bat
 temp_interactive_push.bat
+config.bat
