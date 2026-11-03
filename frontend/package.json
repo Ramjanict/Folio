@@ -16,9 +16,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "node api.js && npm run dev",
-    "dev": "node api.js && vite --port 3000",
-    "build": "node api.js && tsc --noEmit && vite build",
+    "start": "node init && npm run dev",
+    "dev": "node init && vite --port 3000",
+    "build": "node init && tsc --noEmit && vite build",
     "lint": "tsc --noEmit",
     "preview": "vite preview"
   },
